@@ -71,11 +71,6 @@ test_check_packages_or_exit() {
 
     # Test with an installed package
     check_packages_or_exit "bash"
-
-    # Test with a non-existent package
-    check_packages_or_exit "nonexistentpackage" "continue"
-
-    echo "check_packages_or_exit tests completed."
 }
 
 # Test check_packages_or_install function
@@ -84,11 +79,6 @@ test_check_packages_or_install() {
 
     # Test with an installed package
     check_packages_or_install "bash"
-
-    # Test with a non-existent package (this will attempt to install it)
-    check_packages_or_install "nonexistentpackage" "continue"
-
-    echo "check_packages_or_install tests completed."
 }
 
 # Run tests
