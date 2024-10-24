@@ -1,0 +1,10 @@
+logs/
+*.log
+*.iso
+*.qcow2
+*.img
+*.vdi
+*.vmdk
+*.vhdx
+*.vhd
+dist/*
