@@ -9,5 +9,8 @@ VM_OS_VARIANT="debian10"
 VM_BRIDGE="br0"
 VM_DISK_PATH="/var/lib/libvirt/images/${VM_NAME}.qcow2"
 
+# Debian ISO path
+VM_ISO_PATH="./dist/debian-12.7.0-amd64-netinst.iso"
+
 # Log file path
 LOG_FILE="logs/setup_kvm_$(date +'%Y%m%d_%H%M%S').log"

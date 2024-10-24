@@ -73,6 +73,10 @@ check_packages_or_install() {
         else
             message "Package $pkg is not installed. Installing..." "info"
             sudo apt-get install -y "$pkg"
+            if [ $? -ne 0 ]; then
+                message "Failed to install package $pkg" "error"
+                exit 1
+            fi
         fi
     done
 }

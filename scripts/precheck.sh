@@ -4,6 +4,8 @@
 
 # Load helper functions
 source "$(dirname "$0")/message.sh"
+source "$(dirname "$0")/helpers.sh"
+source "$(dirname "$0")/../config/env_vars.sh"
 
 # Function to check virtualization support
 check_virtualization() {
@@ -30,6 +32,6 @@ check_virtualization
 check_root
 check_packages_or_install "qemu-kvm" "libvirt-daemon-system" "libvirt-clients" "bridge-utils" "virt-manager" "lsof"
 
-check_file_exists "${VM_ISO_PATH}" "Error: ISO file not found at ${VM_ISO_PATH}"
+check_file_exists "${ISO_PATH}" "Error: ISO file not found at ${ISO_PATH}"
 
 message "All pre-checks passed." "success"

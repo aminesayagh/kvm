@@ -13,6 +13,11 @@ ISO_NAME="debian-${DEBIAN_VERSION}-amd64-netinst.iso"
 ISO_URL="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/${ISO_NAME}"
 ISO_PATH="./dist/${ISO_NAME}"
 
+# Update VM_ISO_PATH in config/env_vars.sh
+message "Updating VM_ISO_PATH in config/env_vars.sh..." "info"
+sed -i.bak "s|^VM_ISO_PATH=.*|VM_ISO_PATH=\"${ISO_PATH}\"|" config/env_vars.sh
+message "VM_ISO_PATH updated to '${ISO_PATH}'." "success"
+
 # Create dist directory if it doesn't exist
 mkdir -p dist
 

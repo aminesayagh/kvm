@@ -16,13 +16,14 @@ exec > >(tee -i "${LOG_FILE}") 2>&1
 source scripts/message.sh
 source scripts/helpers.sh
 
-source install.sh
-
 # Run pre-checks
 source scripts/precheck.sh
 
+# Run install script
+source install.sh
+
 message "Adding $USER to libvirt and kvm groups..." "info"
-usermod -aG libvirt,kvm "$USER"
+sudo usermod -aG libvirt,kvm "$USER"
 
 message "Added $USER to libvirt and kvm groups. Please log out and log back in for changes to take effect." "warning"
 
@@ -39,7 +40,7 @@ virt-install \
     --network bridge="${VM_BRIDGE}" \
     --graphics none \
     --console pty,target_type=serial \
-    --location "${ISO_PATH}" \
+    --location "${VM_ISO_PATH}" \
     --extra-args 'console=ttyS0,115200n8 serial'
 
 message "Virtual machine installation completed." "success"
