@@ -1,0 +1,42 @@
+# .github/workflows/ci.yml
+
+name: CI
+
+on:
+  push:
+    branches: [main]  # Change to your default branch
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager wget lsof
+          sudo systemctl enable --now libvirtd
+          # Add current user to kvm and libvirt groups
+          sudo usermod -aG libvirt,kvm $USER
+          # Install Bats for testing
+          sudo apt-get install -y bats
+
+      - name: Run test_message.sh
+        run: |
+          chmod +x __tests__/test_message.sh
+          ./__tests__/test_message.sh
+
+      - name: Run test_helpers.sh
+        run: |
+          chmod +x __tests__/test_helpers.sh
+          ./__tests__/test_helpers.sh
+
+      - name: Run test_precheck.sh
+        run: |
+          chmod +x __tests__/test_precheck.sh
+          sudo ./__tests__/test_precheck.sh
