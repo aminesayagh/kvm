@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set SCRIPT_DIR to the directory where this script resides
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Function to format and display messages
 # Parameters:
 #   $1: The message to show (mandatory)

@@ -1,7 +1,11 @@
 #!/bin/bash
 
+# Set SCRIPT_DIR to the directory where this script resides
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$SCRIPT_DIR"
+
 # Load environment variables
-source config/env_vars.sh
+source "$SCRIPT_DIR/config/env_vars.sh"
 
 # Create log file
 set -e
@@ -13,14 +17,14 @@ mkdir -p logs
 exec > >(tee -i "${LOG_FILE}") 2>&1
 
 # Load helper functions
-source scripts/message.sh
-source scripts/helpers.sh
+source "$SCRIPT_DIR/scripts/message.sh"
+source "$SCRIPT_DIR/scripts/helpers.sh"
 
 # Run pre-checks
-source scripts/precheck.sh
+source "$SCRIPT_DIR/scripts/precheck.sh"
 
 # Run install script
-source install.sh
+source "$SCRIPT_DIR/install.sh"
 
 message "Adding $USER to libvirt and kvm groups..." "info"
 sudo usermod -aG libvirt,kvm "$USER"

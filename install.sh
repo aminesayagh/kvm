@@ -1,9 +1,12 @@
 #!/bin/bash
 
+# Set SCRIPT_DIR to the directory where this script resides
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Load environment variables
-source config/env_vars.sh
-source scripts/message.sh
-source scripts/helpers.sh
+source "$SCRIPT_DIR/config/env_vars.sh"
+source "$SCRIPT_DIR/scripts/message.sh"
+source "$SCRIPT_DIR/scripts/helpers.sh"
 
 # Debian version
 DEBIAN_VERSION="12.7.0"

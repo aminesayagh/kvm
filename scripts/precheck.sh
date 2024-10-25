@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# scripts/precheck.sh
+# Set SCRIPT_DIR to the directory where this script resides
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Load helper functions
-source "$(dirname "$0")/message.sh"
-source "$(dirname "$0")/helpers.sh"
-source "$(dirname "$0")/../config/env_vars.sh"
+source "$SCRIPT_DIR/message.sh"
+source "$SCRIPT_DIR/helpers.sh"
+source "$SCRIPT_DIR/../config/env_vars.sh"
 
 # Function to check virtualization support
 check_virtualization() {

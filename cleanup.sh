@@ -1,7 +1,10 @@
 #!/bin/bash
 
-source config/env_vars.sh
-source scripts/message.sh
+# Set SCRIPT_DIR to the directory where this script resides
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$SCRIPT_DIR/config/env_vars.sh"
+source "$SCRIPT_DIR/scripts/message.sh"
 
 remove_vm() {
     message "Shutting down and undefining VM '${VM_NAME}'..." "info"
