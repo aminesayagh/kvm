@@ -14,5 +14,3 @@ echo 'VM_ISO_PATH="./dist/mock.iso"' > "$SCRIPT_DIR/../config/env_vars.sh"
 
 # Source the precheck script
 source "$SCRIPT_DIR/../scripts/precheck.sh"
-
-# Since precheck.sh runs checks on the actual system, you may want to mock certain functions.
