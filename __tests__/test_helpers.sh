@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# __tests__/test_helpers.sh
+# Set SCRIPT_DIR to the directory where this script resides
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-source ./scripts/message.sh
-source ./scripts/helpers.sh
+source "$SCRIPT_DIR/../scripts/message.sh"
+source "$SCRIPT_DIR/../scripts/helpers.sh"
 
 # Test check_file_exists function
 test_check_file_exists() {

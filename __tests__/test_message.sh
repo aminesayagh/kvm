@@ -3,7 +3,7 @@
 # Set SCRIPT_DIR to the directory where this script resides
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-source "$SCRIPT_DIR/scripts/message.sh"
+source "$SCRIPT_DIR/../scripts/message.sh"
 
 # Test the message function with various types
 test_message_function() {
