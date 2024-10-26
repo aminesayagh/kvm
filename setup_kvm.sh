@@ -10,7 +10,7 @@ set -e
 
 trap 'echo "An error occurred. Exiting..."; exit 1;' ERR
 
-mkdir -p logs
+mkdir -p "$REPO_ROOT/logs"
 
 exec > >(tee -i "${LOG_FILE}") 2>&1
 

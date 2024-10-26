@@ -3,9 +3,9 @@
 source "$(dirname "${BASH_SOURCE[0]}")/scripts/path.sh"
 
 # Load environment variables
-source "$SCRIPT_DIR/config/env_vars.sh"
-source "$SCRIPT_DIR/scripts/message.sh"
-source "$SCRIPT_DIR/scripts/helpers.sh"
+source "$REPO_ROOT/config/env_vars.sh"
+source "$REPO_ROOT/scripts/message.sh"
+source "$REPO_ROOT/scripts/helpers.sh"
 
 # Debian version
 DEBIAN_VERSION="12.7.0"

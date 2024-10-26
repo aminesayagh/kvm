@@ -86,7 +86,7 @@ teardown() {
 test_log_creation() {
     message "Testing log file creation..." "info"
     
-    source "$SCRIPT_DIR/../setup_kvm.sh" > /dev/null 2>&1 || true
+    source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1 || true
     
     if [ -f "$TEST_DIR/logs/setup_kvm_test.log" ]; then
         message "Test passed: Log file was created" "success"
@@ -100,7 +100,7 @@ test_log_creation() {
 test_disk_creation() {
     message "Testing disk image creation..." "info"
     
-    source "$SCRIPT_DIR/../setup_kvm.sh" > /dev/null 2>&1 || true
+    source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1 || true
     
     if [ -f "$TEST_DIR/images/test_vm.qcow2" ]; then
         message "Test passed: Disk image was created" "success"
@@ -118,7 +118,7 @@ test_error_handling() {
     mkdir -p "$(dirname "$VM_DISK_PATH")"
     chmod 444 "$(dirname "$VM_DISK_PATH")"
     
-    if ! source "$SCRIPT_DIR/../setup_kvm.sh" > /dev/null 2>&1; then
+    if ! source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1; then
         message "Test passed: Script failed as expected when disk creation is not possible" "success"
     else
         message "Test failed: Script should have failed but didn't" "error"
@@ -133,7 +133,7 @@ test_error_handling() {
 test_user_groups() {
     message "Testing user group addition..." "info"
     
-    source "$SCRIPT_DIR/../setup_kvm.sh" > /dev/null 2>&1 || true
+    source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1 || true
     
     # Check if mock sudo was called with correct parameters
     if grep -q "Mock: Adding user to groups" "$TEST_DIR/logs/setup_kvm_test.log"; then
@@ -148,7 +148,7 @@ test_user_groups() {
 test_vm_installation() {
     message "Testing VM installation..." "info"
     
-    source "$SCRIPT_DIR/../setup_kvm.sh" > /dev/null 2>&1 || true
+    source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1 || true
     
     # Check if virt-install was called with correct parameters
     if grep -q "Mock: Installing virtual machine with parameters:" "$TEST_DIR/logs/setup_kvm_test.log"; then
