@@ -22,7 +22,7 @@ source "$REPO_ROOT/scripts/helpers.sh"
 source "$REPO_ROOT/scripts/precheck.sh"
 
 # Run install script
-source "$REPO_ROOT/install.sh"
+source "$REPO_ROOT/download.sh"
 
 message "Adding $USER to libvirt and kvm groups..." "info"
 sudo usermod -aG libvirt,kvm "$USER"
