@@ -3,7 +3,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/scripts/path.sh"
 
 # Load environment variables
-source "$SCRIPT_DIR/config/env_vars.sh"
+source "$REPO_ROOT/config/env_vars.sh"
 
 # Create log file
 set -e

@@ -12,8 +12,9 @@ touch "$REPO_ROOT/dist/mock.iso"
 # Create a mock config/env_vars.sh
 echo 'VM_ISO_PATH="./dist/mock.iso"' > "$REPO_ROOT/config/env_vars.sh"
 
-rm -rf "$REPO_ROOT/dist/mock.iso"
-export VM_ISO_PATH=""
 
 # Source the precheck script
 source "$REPO_ROOT/scripts/precheck.sh"
+
+rm -rf "$REPO_ROOT/dist/mock.iso"
+export VM_ISO_PATH=""
