@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Set SCRIPT_DIR to the directory where this script resides
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$(dirname "${BASH_SOURCE[0]}")/scripts/path.sh"
 
 # Load environment variables
 source "$SCRIPT_DIR/config/env_vars.sh"

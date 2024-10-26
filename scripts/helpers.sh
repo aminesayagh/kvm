@@ -1,9 +1,6 @@
 #!/bin/bash
-# Set SCRIPT_DIR to the directory where this script resides
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Load message function
-source "$SCRIPT_DIR/message.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/path.sh"
 
 # Function to check if a file exists
 check_file_exists() {
