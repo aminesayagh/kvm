@@ -3,6 +3,10 @@
 # Set SCRIPT_DIR to the directory where this script resides
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+get_script_dir() {
+    return "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+}
+
 # Get the root directory of the repository
 get_repo_root() {
     local current_dir

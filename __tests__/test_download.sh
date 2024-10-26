@@ -81,7 +81,7 @@ test_skip_existing_iso() {
     ORIG_MTIME=$(stat -c %Y "$ISO_PATH")
     
     # Source the download script
-    source "$SCRIPT_DIR/../download.sh"
+    source "$REPO_ROOT/download.sh"
     
     # Check if ISO file was not modified
     NEW_MTIME=$(stat -c %Y "$ISO_PATH")

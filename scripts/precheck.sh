@@ -3,7 +3,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/path.sh"
 
 # Load helper functions
-source "$SCRIPT_DIR/message.sh"
+source "$REPO_ROOT/scripts/message.sh"
 source "$REPO_ROOT/scripts/helpers.sh"
 source "$REPO_ROOT/config/env_vars.sh"
 
