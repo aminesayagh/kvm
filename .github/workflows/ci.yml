@@ -40,3 +40,8 @@ jobs:
         run: |
           chmod +x __tests__/test_precheck.sh
           sudo ./__tests__/test_precheck.sh
+
+      - name: Run test_download.sh
+        run: |
+          chmod +x __tests__/test_download.sh
+          sudo ./__tests__/test_download.sh

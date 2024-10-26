@@ -1,5 +1,4 @@
 #!/bin/bash
-
 source "$(dirname "${BASH_SOURCE[0]}")/../scripts/path.sh"
 
 
