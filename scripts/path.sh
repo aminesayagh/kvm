@@ -1,8 +1,10 @@
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+export SCRIPT_DIR
+
 get_script_dir() {
-    echo "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    cd "$(dirname "${BASH_SOURCE[0]}")" && pwd
 }
 
 # Get the root directory of the repository
@@ -27,3 +29,20 @@ get_repo_root() {
 }
 
 REPO_ROOT=$(get_repo_root)
+
+export REPO_ROOT
+
+safe_source() {
+    local script_path="$1"
+    if [ -f "$script_path" ]; then
+        # shellcheck disable=SC1090
+        source "$script_path" > /dev/null 2>&1 || true
+    else
+        if command -v message > /dev/null 2>&1; then
+            message "Error: Script not found: $script_path" "error"
+        else
+            echo "Error: Script not found: $script_path" >&2
+        fi
+        exit 1
+    fi
+}

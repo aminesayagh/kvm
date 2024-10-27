@@ -3,26 +3,20 @@
 source "$(dirname "${BASH_SOURCE[0]}")/scripts/path.sh"
 
 # Load environment variables
-source "$REPO_ROOT/config/env_vars.sh"
+safe_source "$REPO_ROOT/config/env_vars.sh"
 
-# Create log file
-set -e
-
+# trap if error occurs on any line
 trap 'echo "An error occurred. Exiting..."; exit 1;' ERR
 
-mkdir -p "$REPO_ROOT/logs"
-
-exec > >(tee -i "${LOG_FILE}") 2>&1
-
 # Load helper functions
-source "$REPO_ROOT/scripts/message.sh"
-source "$REPO_ROOT/scripts/helpers.sh"
+safe_source "$REPO_ROOT/scripts/message.sh"
+safe_source "$REPO_ROOT/scripts/helpers.sh"
 
 # Run pre-checks
-source "$REPO_ROOT/scripts/precheck.sh"
+safe_source "$REPO_ROOT/scripts/precheck.sh"
 
 # Run download iso file script
-source "$REPO_ROOT/download.sh"
+safe_source "$REPO_ROOT/download.sh"
 
 message "Adding $USER to libvirt and kvm groups..." "info"
 sudo usermod -aG libvirt,kvm "$USER"

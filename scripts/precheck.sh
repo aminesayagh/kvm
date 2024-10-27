@@ -1,11 +1,12 @@
 #!/bin/bash
 
+# shellcheck source=./path.sh
 source "$(dirname "${BASH_SOURCE[0]}")/path.sh"
 
 # Load helper functions
-source "$REPO_ROOT/scripts/message.sh"
-source "$REPO_ROOT/scripts/helpers.sh"
-source "$REPO_ROOT/config/env_vars.sh"
+safe_source "$REPO_ROOT/scripts/message.sh"
+safe_source "$REPO_ROOT/scripts/helpers.sh"
+safe_source "$REPO_ROOT/config/env_vars.sh"
 
 # Function to check virtualization support
 check_virtualization() {

@@ -2,8 +2,8 @@
 
 source "$(dirname "${BASH_SOURCE[0]}")/scripts/path.sh"
 
-source "$REPO_ROOT/config/env_vars.sh"
-source "$REPO_ROOT/scripts/message.sh"
+safe_source "$REPO_ROOT/config/env_vars.sh"
+safe_source "$REPO_ROOT/scripts/message.sh"
 
 remove_vm() {
     message "Shutting down and undefining VM '${VM_NAME}'..." "info"

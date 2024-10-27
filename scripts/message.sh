@@ -9,7 +9,6 @@ source "$(dirname "${BASH_SOURCE[0]}")/path.sh"
 message() {
     local message="$1"
     local type="${2:-info}"
-    local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
     
     # ANSI color codes
     local RED='\033[0;31m'
@@ -27,5 +26,5 @@ message() {
     esac
 
     # Print colored message to terminal
-    echo -e "${color}[${type^^}] [$timestamp] $message${NC}"
+    echo -e "${color}[${type^^}] [$(date "+%Y-%m-%d %H:%M:%S")] $message${NC}"
 }

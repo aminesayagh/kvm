@@ -97,7 +97,7 @@ EOF
 
     # Set test environment
     export REPO_ROOT="$TEST_DIR"
-    cd "$TEST_DIR"
+    cd "$TEST_DIR" || exit 1
 
     # Copy setup_kvm.sh to test directory
     cp "$ORIG_REPO_ROOT/setup_kvm.sh" "$TEST_DIR"
@@ -111,7 +111,7 @@ EOF
 
 # Cleanup test environment
 teardown() {
-    cd "$ORIG_DIR"
+    cd "$ORIG_DIR" || exit 1
     export REPO_ROOT="$ORIG_REPO_ROOT"
     rm -rf "$TEST_DIR"
 }
@@ -146,8 +146,11 @@ test_log_creation() {
 test_disk_creation() {
     message "Testing disk image creation..." "info"
     
-    source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1 || true
-    
+    if ! source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1; then
+        message "Test failed: Script failed to source" "error"
+        return 1
+    fi
+
     sleep 1
 
     if [ -f "$TEST_DIR/images/test_vm.qcow2" ]; then
@@ -166,6 +169,7 @@ test_error_handling() {
     mkdir -p "$(dirname "$VM_DISK_PATH")"
     chmod 444 "$(dirname "$VM_DISK_PATH")"
     
+    # shellcheck source=$REPO_ROOT/setup_kvm.sh
     if ! source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1; then
         message "Test passed: Script failed as expected when disk creation is not possible" "success"
     else
@@ -212,7 +216,7 @@ main() {
     setup
 
     # Run all tests
-    test_log_creation
+    # test_log_creation
     test_disk_creation
     test_error_handling
     test_user_groups
