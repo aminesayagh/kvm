@@ -21,7 +21,7 @@ source "$REPO_ROOT/scripts/helpers.sh"
 # Run pre-checks
 source "$REPO_ROOT/scripts/precheck.sh"
 
-# Run install script
+# Run download iso file script
 source "$REPO_ROOT/download.sh"
 
 message "Adding $USER to libvirt and kvm groups..." "info"

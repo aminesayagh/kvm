@@ -44,6 +44,22 @@ setup_mocks() {
         return 0
     }
     export -f systemctl
+
+    # Mock wget command
+    wget() {
+        echo "Mock: wget $*"
+        return 0
+    }
+    export -f wget
+
+    # Mock tee command
+    tee() {
+        while read -r line; do
+            echo "$line" >> "$1"
+            echo "$line"
+        done
+    }
+    export -f tee
 }
 
 # Setup test environment
@@ -65,11 +81,14 @@ LOG_FILE="$TEST_DIR/logs/setup_kvm_test.log"
 EOF
 
     # Create mock ISO file
-    mkdir -p "$TEST_DIR/images"
     touch "$TEST_DIR/dist/debian-test.iso"
 
-    # Save original directory
+    # Save original directory and environment
     ORIG_DIR=$(pwd)
+    ORIG_REPO_ROOT="$REPO_ROOT"
+    
+    # Set test environment
+    export REPO_ROOT="$TEST_DIR"
     cd "$TEST_DIR"
 
     # Setup mocks
@@ -79,6 +98,7 @@ EOF
 # Cleanup test environment
 teardown() {
     cd "$ORIG_DIR"
+    export REPO_ROOT="$ORIG_REPO_ROOT"
     rm -rf "$TEST_DIR"
 }
 
@@ -86,10 +106,20 @@ teardown() {
 test_log_creation() {
     message "Testing log file creation..." "info"
     
-    source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1 || true
-    
+    # Run setup script in subshell to isolate environment changes and capture output, tee to log file
+    (
+        source "$REPO_ROOT/setup_kvm.sh" > >(tee -a "$TEST_DIR/logs/setup_kvm_test.log") 2>&1
+    ) || true
+
+    sleep 1
+
     if [ -f "$TEST_DIR/logs/setup_kvm_test.log" ]; then
-        message "Test passed: Log file was created" "success"
+        if [ -s "$TEST_DIR/logs/setup_kvm_test.log" ]; then
+            message "Test passed: Log file was created and contains data" "success"
+        else
+            message "Test failed: Log file was created but is empty" "error"
+            return 1
+        fi
     else
         message "Test failed: Log file was not created" "error"
         return 1
