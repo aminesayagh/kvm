@@ -1,10 +1,8 @@
 #!/bin/bash
-
-# Set SCRIPT_DIR to the directory where this script resides
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 get_script_dir() {
-    return "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    echo "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 }
 
 # Get the root directory of the repository

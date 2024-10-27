@@ -54,8 +54,9 @@ setup_mocks() {
 
     # Mock tee command
     tee() {
+        local file="$1"
         while read -r line; do
-            echo "$line" >> "$1"
+            echo "$line" >> "$file"
             echo "$line"
         done
     }
@@ -66,6 +67,13 @@ setup_mocks() {
 setup() {
     TEST_DIR=$(mktemp -d)
     mkdir -p "$TEST_DIR"/{config,logs,scripts,dist}
+
+    # Copy scripts to test directory
+    cp "$REPO_ROOT"/scripts/*.sh "$TEST_DIR/scripts/"
+
+    cp -r "$REPO_ROOT/download.sh" "$TEST_DIR"
+
+    cp -r "$REPO_ROOT/.git" "$TEST_DIR"
 
     # Create mock config files
     cat > "$TEST_DIR/config/env_vars.sh" << EOF
@@ -86,13 +94,19 @@ EOF
     # Save original directory and environment
     ORIG_DIR=$(pwd)
     ORIG_REPO_ROOT="$REPO_ROOT"
-    
+
     # Set test environment
     export REPO_ROOT="$TEST_DIR"
     cd "$TEST_DIR"
 
+    # Copy setup_kvm.sh to test directory
+    cp "$ORIG_REPO_ROOT/setup_kvm.sh" "$TEST_DIR"
+
     # Setup mocks
     setup_mocks
+
+    # Show tree
+    tree "$TEST_DIR"
 }
 
 # Cleanup test environment
@@ -105,6 +119,8 @@ teardown() {
 # Test log file creation
 test_log_creation() {
     message "Testing log file creation..." "info"
+
+    echo REPO_ROOT: "$REPO_ROOT"
     
     # Run setup script in subshell to isolate environment changes and capture output, tee to log file
     (
@@ -132,6 +148,8 @@ test_disk_creation() {
     
     source "$REPO_ROOT/setup_kvm.sh" > /dev/null 2>&1 || true
     
+    sleep 1
+
     if [ -f "$TEST_DIR/images/test_vm.qcow2" ]; then
         message "Test passed: Disk image was created" "success"
     else
