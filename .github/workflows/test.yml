@@ -23,9 +23,6 @@ jobs:
           sudo systemctl enable --now libvirtd
           # Add current user to kvm and libvirt groups
           sudo usermod -aG libvirt,kvm $USER
-          # Install Bats for testing
-          sudo apt-get install -y bats
-
       - name: Run test_message.sh
         run: |
           chmod +x __tests__/test_message.sh
