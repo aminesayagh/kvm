@@ -30,9 +30,11 @@ jobs:
               lsof \
               cpu-checker
 
+          echo "REPO_ROOT=$(pwd)" >> $GITHUB_ENV
+
       - name: Check KVM support
         run: |
-          sudo ./scripts/precheck.sh
+          sudo $REPO_ROOT/scripts/precheck.sh
           echo "KVM_GROUP_SET=true" >> $GITHUB_ENV
 
       - name: Create required directories
@@ -43,19 +45,19 @@ jobs:
 
       - name: Download Debian ISO
         run: |
-          chmod +x download.sh
-          sudo ./download.sh
+          chmod +x $REPO_ROOT/download.sh
+          sudo $REPO_ROOT/download.sh
 
       - name: Run setup script
         run: |
-          chmod +x setup_kvm.sh
-          sudo ./setup_kvm.sh
+          chmod +x $REPO_ROOT/setup_kvm.sh
+          sudo $REPO_ROOT/setup_kvm.sh
 
       - name: Run healthcheck
         run: |
-          chmod +x setup_kvm.sh download.sh cleanup.sh
-          chmod +x scripts/*.sh
-          sudo ./setup_kvm.sh
+          chmod +x $REPO_ROOT/setup_kvm.sh $REPO_ROOT/download.sh $REPO_ROOT/cleanup.sh
+          chmod +x $REPO_ROOT/scripts/*.sh
+          sudo $REPO_ROOT/setup_kvm.sh
         env:
           DEBIAN_FRONTEND: noninteractive # Disable interactive prompts during installation
 
