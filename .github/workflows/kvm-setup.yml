@@ -1,0 +1,62 @@
+name: KVM Setup and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  setup-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+              qemu-kvm \
+              libvirt-daemon-system \
+              libvirt-clients \
+              bridge-utils \
+              virt-manager \
+              wget \
+              lsof \
+              cpu-checker
+
+      - name: Check KVM support
+        run: |
+          sudo ./scripts/precheck.sh
+          echo "KVM_GROUP_SET=true" >> $GITHUB_ENV
+
+      - name: Create required directories
+        run: |
+          sudo mkdir -p /var/lib/libvirt/images
+          sudo chmod 777 /var/lib/libvirt/images
+          mkdir -p logs dist
+
+      - name: Download Debian ISO
+        run: |
+          chmod +x download.sh
+          sudo ./download.sh
+
+      - name: Run setup script
+        run: |
+          chmod +x setup_kvm.sh
+          sudo ./setup_kvm.sh
+
+      - name: Run healthcheck
+        run: |
+          chmod +x setup_kvm.sh download.sh cleanup.sh
+          chmod +x scripts/*.sh
+          sudo ./setup_kvm.sh
+        env:
+          DEBIAN_FRONTEND: noninteractive # Disable interactive prompts during installation
+
+    

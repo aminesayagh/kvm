@@ -18,6 +18,10 @@ safe_source "$REPO_ROOT/scripts/precheck.sh"
 # Run download iso file script
 safe_source "$REPO_ROOT/download.sh"
 
+# Enable and start libvirtd service
+# This is required for virt-install to work
+sudo systemctl enable --now libvirtd
+
 message "Adding $USER to libvirt and kvm groups..." "info"
 sudo usermod -aG libvirt,kvm "$USER"
 
