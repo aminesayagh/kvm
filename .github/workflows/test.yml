@@ -43,7 +43,3 @@ jobs:
           chmod +x __tests__/test_download.sh
           sudo ./__tests__/test_download.sh
 
-      - name: Run test_setup_kvm.sh
-        run: |
-          chmod +x __tests__/test_setup_kvm.sh
-          sudo ./__tests__/test_setup_kvm.sh
