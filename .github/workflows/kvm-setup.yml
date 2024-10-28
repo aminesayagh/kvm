@@ -31,10 +31,10 @@ jobs:
               cpu-checker \
               tree
 
-
       - name: Check KVM support
         run: |
           tree .
+          chmod +x scripts/*.sh
           sudo ./scripts/precheck.sh
           echo "KVM_GROUP_SET=true" >> $GITHUB_ENV
 
@@ -62,4 +62,3 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive # Disable interactive prompts during installation
 
-    
