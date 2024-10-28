@@ -47,18 +47,18 @@ jobs:
       - name: Download Debian ISO
         run: |
           chmod +x download.sh
-          sudo download.sh
+          sudo ./download.sh
 
       - name: Run setup script
         run: |
           chmod +x setup_kvm.sh
-          sudo setup_kvm.sh
+          sudo ./setup_kvm.sh
 
       - name: Run healthcheck
         run: |
           chmod +x setup_kvm.sh download.sh cleanup.sh
           chmod +x scripts/*.sh
-          sudo setup_kvm.sh
+          sudo ./setup_kvm.sh
         env:
           DEBIAN_FRONTEND: noninteractive # Disable interactive prompts during installation
 
