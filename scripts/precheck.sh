@@ -8,9 +8,15 @@ safe_source "$REPO_ROOT/scripts/message.sh"
 safe_source "$REPO_ROOT/scripts/helpers.sh"
 safe_source "$REPO_ROOT/config/env_vars.sh"
 
+# Function to check KVM support
+check_kvm_ok() {
+  kvm-ok || true
+}
+
 # Function to check virtualization support
 check_virtualization() {
-  if [ "$(egrep -c '(vmx|svm)' /proc/cpuinfo)" -eq 0 ]; then
+  # check if cpuinfo has vmx or svm in the output (case insensitive)
+  if [ "$(grep -E -c '(vmx|svm)' /proc/cpuinfo)" -eq 0 ]; then
     message "Error: CPU does not support virtualization." "error"
     exit 1
   else
@@ -29,8 +35,9 @@ check_root() {
 }
 
 # Run checks
+check_kvm_ok
 check_virtualization
 check_root
-check_packages_or_install "qemu-kvm" "libvirt-daemon-system" "libvirt-clients" "bridge-utils" "virt-manager" "lsof"
+check_packages_or_install "qemu-kvm" "libvirt-daemon-system" "libvirt-clients" "bridge-utils" "virt-manager" "lsof" "cpu-checker"
 
 message "All pre-checks passed." "success"

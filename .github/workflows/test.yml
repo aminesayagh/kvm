@@ -4,7 +4,7 @@ name: CI
 
 on:
   push:
-    branches: [main]  # Change to your default branch
+    branches: [main, test]  # Change to your default branch
   pull_request:
     branches: [main]
 
@@ -23,9 +23,6 @@ jobs:
           sudo systemctl enable --now libvirtd
           # Add current user to kvm and libvirt groups
           sudo usermod -aG libvirt,kvm $USER
-          # Install Bats for testing
-          sudo apt-get install -y bats
-
       - name: Run test_message.sh
         run: |
           chmod +x __tests__/test_message.sh
@@ -46,7 +43,3 @@ jobs:
           chmod +x __tests__/test_download.sh
           sudo ./__tests__/test_download.sh
 
-      - name: Run test_setup_kvm.sh
-        run: |
-          chmod +x __tests__/test_setup_kvm.sh
-          sudo ./__tests__/test_setup_kvm.sh

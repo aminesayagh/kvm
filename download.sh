@@ -31,7 +31,7 @@ if [ ! -f "${ISO_PATH}" ]; then
     # Download Debian ISO
     message "Downloading Debian ISO..." "info"
     wget -O "${ISO_PATH}" "${ISO_URL}"
-    if [ $? -ne 0 ]; then
+    if [ ! $? ]; then
         message "Failed to download Debian ISO. Exiting..." "error"
         exit 1
     fi
