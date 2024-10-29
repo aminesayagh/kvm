@@ -31,9 +31,16 @@ jobs:
               cpu-checker \
               tree
 
+      - name: Configure libvirt
+        run: |
+          sudo systemctl start libvirtd
+          sudo systemctl enable libvirtd
+          sleep 5  # Wait for service to be fully up
+          sudo virsh net-start default || true
+          sudo virsh net-autostart default || true
+
       - name: Check KVM support
         run: |
-          tree .
           chmod +x scripts/*.sh
           sudo ./scripts/precheck.sh
           echo "KVM_GROUP_SET=true" >> $GITHUB_ENV

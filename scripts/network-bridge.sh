@@ -1,72 +1,50 @@
 #!/bin/bash
 
-# Set SCRIPT_DIR to the directory where this script resides
 setup_network_bridge() {
-    local bridge_name="${1:-br0}"
-    local physical_interface
+    message "Setting up network environment..." "info"
 
-    message "Setting up network bridge $bridge_name..." "info"
-
-    # Find primary network interface
-    physical_interface=$(ip route | grep default | awk '{print $5}' | head -n1)
-    if [ -z "$physical_interface" ]; then
-        message "Could not determine primary network interface" "error"
-        return 1
+    # we'll use the default libvirt network (virbr0)
+    if ! virsh net-list --all | grep -q "default"; then
+        message "Defining default network..." "info"
+        virsh net-define /usr/share/libvirt/networks/default.xml
     fi
 
-    # Check if bridge already exists
-    if ip link show "$bridge_name" >/dev/null 2>&1; then
-        message "Bridge $bridge_name already exists" "info"
+    # Start default network if not active
+    if ! virsh net-list | grep -q "default"; then
+        message "Starting default network..." "info"
+        virsh net-start default
+        virsh net-autostart default
+    fi
+
+    # Verify network is running
+    if ip link show "$VM_BRIDGE" >/dev/null 2>&1; then
+        message "Default network bridge ($VM_BRIDGE) is ready" "success"
         return 0
-    fi
-
-    # Backup network configuration
-    sudo cp /etc/netplan/* "/etc/netplan/backup_$(date +%Y%m%d_%H%M%S)/"
-
-    # Create netplan configuration
-    cat <<EOF | sudo tee "/etc/netplan/02-$bridge_name.yaml"
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    $physical_interface:
-      dhcp4: no
-  bridges:
-    $bridge_name:
-      interfaces: [$physical_interface]
-      dhcp4: yes
-EOF
-
-    # Apply configuration
-    sudo netplan try --timeout 60 || {
-        message "Failed to apply network configuration" "error"
-        return 1
-    }
-    sudo netplan apply
-
-    # Verify bridge setup
-    if ! verify_bridge "$bridge_name"; then
-        message "Bridge setup failed" "error"
+    else
+        message "Failed to set up network bridge" "error"
         return 1
     fi
-
-    message "Bridge $bridge_name setup completed successfully" "success"
-    return 0
 }
 
-# Function to verify bridge setup
-verify_bridge() {
-    local bridge_name="$1"
-    local timeout=30
-    local counter=0
+# Function to verify libvirt network
+verify_libvirt_network() {
+    message "Verifying libvirt network..." "info"
 
-    while [ $counter -lt $timeout ]; do
-        if ip link show "$bridge_name" | grep -q "UP"; then
-            return 0
-        fi
-        sleep 1
-        counter=$((counter + 1))
-    done
+    # Check if libvirtd is running
+    if ! systemctl is-active --quiet libvirtd; then
+        message "Starting libvirtd service..." "info"
+        systemctl start libvirtd
+    fi
 
-    return 1
+    # Wait for service to be fully up
+    sleep 5
+
+    # Check network status
+    if virsh net-list | grep -q "default.*active"; then
+        message "Libvirt default network is active" "success"
+        return 0
+    else
+        message "Libvirt default network is not active" "error"
+        return 1
+    fi
 }
