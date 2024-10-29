@@ -1,7 +1,7 @@
 #!/bin/bash
 
 setup_network_bridge() {
-    message "Setting up network environment..." "info"
+    message "Setting up network environment for $VM_BRIDGE..." "info"
 
     # we'll use the default libvirt network (virbr0)
     if ! virsh net-list --all | grep -q "default"; then
@@ -21,7 +21,7 @@ setup_network_bridge() {
         message "Default network bridge ($VM_BRIDGE) is ready" "success"
         return 0
     else
-        message "Failed to set up network bridge" "error"
+        message "Failed to set up network bridge ($VM_BRIDGE)" "error"
         return 1
     fi
 }
