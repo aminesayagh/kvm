@@ -5,11 +5,11 @@
 VM_NAME="myvm"
 VM_RAM="2048"
 VM_VCPUS="2"
-VM_DISK_SIZE="20G"
+VM_DISK_SIZE="10G"
 VM_OS_VARIANT="debian10"
 # VM Bridge is the name of the bridge in the host machine
 # bridge is a network device in the host machine
-VM_BRIDGE="br0"
+VM_BRIDGE="virbr0"
 BRIDGE_INTERFACE=""
 VM_DISK_PATH="/var/lib/libvirt/images/${VM_NAME}.qcow2"
 
