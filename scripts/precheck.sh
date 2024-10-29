@@ -7,6 +7,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/path.sh"
 safe_source "$REPO_ROOT/scripts/message.sh"
 safe_source "$REPO_ROOT/scripts/helpers.sh"
 safe_source "$REPO_ROOT/config/env_vars.sh"
+safe_source "$REPO_ROOT/scripts/network-bridge.sh"
 
 # Function to check KVM support
 check_kvm_ok() {
@@ -40,8 +41,8 @@ check_network() {
 
   # Check if bridge exists and is up
   if ! ip link show "$VM_BRIDGE" >/dev/null 2>&1; then
-    message "Network bridge '$VM_BRIDGE' does not exist" "error"
-    return 1
+    message "Network bridge not found. Setting up bridge..." "info"
+    setup_network_bridge "$VM_BRIDGE" || exit 1
   fi
 
   # Check bridge status

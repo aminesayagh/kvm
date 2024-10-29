@@ -3,7 +3,11 @@
 source "$(dirname "${BASH_SOURCE[0]}")/scripts/path.sh"
 
 # Load environment variables
-safe_source "$REPO_ROOT/config/env_vars.sh"
+if [ -f "$REPO_ROOT/config/ci_env_vars.sh" ]; then
+    safe_source "$REPO_ROOT/config/ci_env_vars.sh"
+else
+    safe_source "$REPO_ROOT/config/env_vars.sh"
+fi
 
 # trap if error occurs on any line
 trap 'echo "An error occurred. Exiting..."; exit 1;' ERR
