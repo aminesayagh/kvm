@@ -11,11 +11,14 @@ safe_source "$REPO_ROOT/config/ci_env_vars.sh"
 
 # Function to check KVM support
 check_kvm_ok() {
+  message "Checking KVM support..." "info"
   kvm-ok || true
+  message "KVM support checked." "success"
 }
 
 # Function to check virtualization support
 check_virtualization() {
+  message "Checking virtualization support..." "info"
   # check if cpuinfo has vmx or svm in the output (case insensitive)
   if [ "$(grep -E -c '(vmx|svm)' /proc/cpuinfo)" -eq 0 ]; then
     message "Error: CPU does not support virtualization." "error"
@@ -27,6 +30,7 @@ check_virtualization() {
 
 # Function to check if running as root
 check_root() {
+  message "Checking if running as root..." "info"
   if [ "$EUID" -ne 0 ]; then
     message "Error: Please run as root or use sudo." "error"
     exit 1

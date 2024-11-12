@@ -27,6 +27,8 @@ requirements_check() {
 
     # Run download iso file script
     safe_source "$REPO_ROOT/download.sh"
+
+    message "Pre-checks completed successfully." "success"
 }
 
 user_setup() {
@@ -110,6 +112,8 @@ user_setup() {
         # Return the KVM user for use in other functions
         echo "$kvm_user"
     fi
+
+    message "User setup completed successfully" "success"
 }
 
 disk_setup() {
@@ -126,6 +130,8 @@ disk_setup() {
 
     # Set permissions for the disk image
     sudo chmod 660 "${VM_DISK_PATH}"
+
+    message "Disk image created successfully." "success"
 }
 
 vm_setup() {
@@ -141,6 +147,8 @@ vm_setup() {
         --console pty,target_type=serial \
         --location "${VM_ISO_PATH}" \
         --extra-args 'console=ttyS0,115200n8 serial'
+
+    message "Virtual machine installed successfully." "success"
 }
 
 main() {
