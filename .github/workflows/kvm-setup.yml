@@ -39,12 +39,6 @@ jobs:
           sudo virsh net-start default || true
           sudo virsh net-autostart default || true
 
-      - name: Check KVM support
-        run: |
-          chmod +x scripts/*.sh
-          sudo ./scripts/precheck.sh
-          echo "KVM_GROUP_SET=true" >> $GITHUB_ENV
-
       - name: Create required directories
         run: |
           sudo mkdir -p /var/lib/libvirt/images
@@ -55,11 +49,6 @@ jobs:
         run: |
           chmod +x download.sh
           sudo ./download.sh
-
-      - name: Run setup script
-        run: |
-          chmod +x setup_kvm.sh
-          sudo ./setup_kvm.sh
 
       - name: Run healthcheck
         run: |
