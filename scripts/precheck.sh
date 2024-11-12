@@ -6,8 +6,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/path.sh"
 # Load helper functions
 safe_source "$REPO_ROOT/scripts/message.sh"
 safe_source "$REPO_ROOT/scripts/helpers.sh"
-safe_source "$REPO_ROOT/config/env_vars.sh"
 safe_source "$REPO_ROOT/scripts/network-bridge.sh"
+safe_source "$REPO_ROOT/config/ci_env_vars.sh"
 
 # Function to check KVM support
 check_kvm_ok() {
