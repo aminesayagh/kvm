@@ -9,7 +9,7 @@ safe_source "$REPO_ROOT/scripts/message.sh"
 safe_source "$REPO_ROOT/scripts/helpers.sh"
 
 # Debian version
-DEBIAN_VERSION="12.7.0"
+DEBIAN_VERSION="12.8.0"
 
 # ISO file details
 ISO_NAME="debian-${DEBIAN_VERSION}-amd64-netinst.iso"
