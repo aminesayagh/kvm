@@ -78,4 +78,9 @@ check_packages_or_install() {
             fi
         fi
     done
+
+    sudo apt-get update && sudo apt-get upgrade -y
+    sleep 1
+
+    message "All packages installed successfully" "success"
 }

@@ -36,7 +36,7 @@ safe_source() {
     local script_path="$1"
     if [ -f "$script_path" ]; then
         # shellcheck disable=SC1090
-        source "$script_path" > /dev/null 2>&1 || true
+        source "$script_path"
     else
         if command -v message > /dev/null 2>&1; then
             message "Error: Script not found: $script_path" "error"

@@ -92,15 +92,17 @@ check_disk_space() {
   return 0
 }
 
-main() {
+precheck() {
+  message "Running pre-checks..." "info"
+
   local failed=0
 
+  check_packages_or_install "kvm-ok" "qemu-kvm" "libvirt-daemon-system" "virsh" "libvirt-clients" "bridge-utils" "virt-manager" "lsof" "cpu-checker" || failed=1
   check_kvm_ok || failed=1
   check_virtualization || failed=1
   check_network || failed=1
   check_disk_space || failed=1
   check_root || failed=1
-  check_packages_or_install "qemu-kvm" "libvirt-daemon-system" "libvirt-clients" "bridge-utils" "virt-manager" "lsof" "cpu-checker" || failed=1
 
   if [ $failed -eq 1 ]; then
     message "Pre-checks failed." "error"
@@ -110,5 +112,6 @@ main() {
   fi
 }
 
+echo "Running pre-checks..."
 # Run checks
-main
+precheck

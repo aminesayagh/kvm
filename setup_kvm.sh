@@ -17,16 +17,19 @@ safe_source "$REPO_ROOT/scripts/message.sh"
 safe_source "$REPO_ROOT/scripts/helpers.sh"
 
 requirements_check() {
-    # Enable and start libvirtd service
-    # This is required for virt-install to work
-    message "Enabling and starting libvirtd service..." "info"
-    sudo systemctl enable --now libvirtd
+    message "Running pre-checks..." "info"
 
     # Run pre-checks
     safe_source "$REPO_ROOT/scripts/precheck.sh"
 
     # Run download iso file script
     safe_source "$REPO_ROOT/download.sh"
+
+    # Enable and start libvirtd service
+    # This is required for virt-install to work
+    message "Enabling and starting libvirtd service..." "info"
+    sudo service libvirtd enable
+    sudo service libvirtd start
 
     message "Pre-checks completed successfully." "success"
 }
@@ -151,15 +154,19 @@ vm_setup() {
     message "Virtual machine installed successfully." "success"
 }
 
-main() {
+setup_kvm() {
     local kvm_user
 
     requirements_check
     kvm_user=$(user_setup)
+
+    # Create disk image
     disk_setup "$kvm_user"
+
+    # Install virtual machine
     vm_setup "$kvm_user"
 
     message "Setup completed successfully." "success"
 }
 
-main
+setup_kvm
